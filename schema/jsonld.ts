@@ -1,6 +1,24 @@
 import type { Workshop, Service, Organization } from "@/types";
 
 export function generateWorkshopJsonLd(workshop: Workshop): object {
+  const organizer = workshop.instructor
+    ? [
+        {
+          "@type": "Person",
+          name: workshop.instructor,
+        },
+        {
+          "@type": "Organization",
+          name: "60 Watts of Clarity",
+          url: "https://60wattsofclarity.com",
+        },
+      ]
+    : {
+        "@type": "Organization",
+        name: "60 Watts of Clarity",
+        url: "https://60wattsofclarity.com",
+      };
+
   return {
     "@context": "https://schema.org",
     "@type": "EducationEvent",
@@ -32,12 +50,6 @@ export function generateWorkshopJsonLd(workshop: Workshop): object {
         url: workshop.url,
       },
     }),
-    ...(workshop.instructor && {
-      organizer: {
-        "@type": "Person",
-        name: workshop.instructor,
-      },
-    }),
     ...(workshop.maxAttendees && {
       maximumAttendeeCapacity: workshop.maxAttendees,
     }),
@@ -47,11 +59,7 @@ export function generateWorkshopJsonLd(workshop: Workshop): object {
         name: topic,
       })),
     }),
-    organizer: {
-      "@type": "Organization",
-      name: "60 Watts of Clarity",
-      url: "https://60wattsofclarity.com",
-    },
+    organizer,
   };
 }
 
