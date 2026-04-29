@@ -6,6 +6,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./lib/**/*.{js,ts,jsx,tsx,mdx}",
     "./schema/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -22,6 +23,7 @@ const config: Config = {
           "system-ui",
           "sans-serif",
         ],
+        mono: ['"JetBrains Mono"', '"SFMono-Regular"', "ui-monospace", "monospace"],
       },
     },
   },
