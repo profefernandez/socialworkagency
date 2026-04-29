@@ -1,30 +1,23 @@
+@config "../tailwind.config.ts";
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/*
- * Design Tokens — 60 Watts of Clarity
- * All colour pairs meet WCAG 2.1 AAA (7:1 contrast ratio).
- *
- * clarity-dark  (#1a1207) on clarity-light (#fffdf5)  → 17.6:1  ✓ AAA
- * clarity-dark  (#1a1207) on white (#ffffff)           → 18.2:1  ✓ AAA
- * clarity-gold  (#b07d00) on white (#ffffff)           →  7.1:1  ✓ AAA
- * clarity-muted (#4a3f2a) on white (#ffffff)           →  9.8:1  ✓ AAA
- */
-
 :root {
-  /* Brand palette */
-  --color-clarity-dark:   #1a1207;
-  --color-clarity-light:  #fffdf5;
-  --color-clarity-gold:   #b07d00;
-  --color-clarity-muted:  #4a3f2a;
-  --color-clarity-accent: #0a5c6e;
+  --color-clarity-dark: #08101f;
+  --color-clarity-light: #f8fafc;
+  --color-clarity-gold: #ffb300;
+  --color-clarity-muted: #475569;
+  --color-clarity-accent: #60a5fa;
 
-  /* Semantic aliases */
-  --background: var(--color-clarity-light);
-  --foreground: var(--color-clarity-dark);
+  --color-hud-amber: #ffb300;
+  --color-depth-blue: #60a5fa;
+  --color-mist: #d9e2ef;
+  --surface: rgba(8, 16, 31, 0.72);
+  --surface-strong: rgba(5, 8, 22, 0.9);
+  --background: #050816;
+  --foreground: #f8fafc;
 }
 
-/* Simplified layout: strip decorative motion + reduce visual noise */
 [data-simplified="true"] * {
   animation: none !important;
   transition: none !important;
@@ -36,20 +29,27 @@
 }
 
 @theme inline {
-  /* Expose brand colours to Tailwind utility classes */
-  --color-clarity-dark:   var(--color-clarity-dark);
-  --color-clarity-light:  var(--color-clarity-light);
-  --color-clarity-gold:   var(--color-clarity-gold);
-  --color-clarity-muted:  var(--color-clarity-muted);
+  --color-clarity-dark: var(--color-clarity-dark);
+  --color-clarity-light: var(--color-clarity-light);
+  --color-clarity-gold: var(--color-clarity-gold);
+  --color-clarity-muted: var(--color-clarity-muted);
   --color-clarity-accent: var(--color-clarity-accent);
-
+  --color-hud-amber: var(--color-hud-amber);
+  --color-depth-blue: var(--color-depth-blue);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
 }
 
-/* Smooth scroll — disabled when user prefers reduced motion */
+html {
+  min-height: 100%;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
@@ -57,11 +57,49 @@
 }
 
 body {
+  min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  background-image:
+    radial-gradient(circle at top right, rgba(96, 165, 250, 0.14), transparent 28%),
+    radial-gradient(circle at 18% 18%, rgba(255, 179, 0, 0.1), transparent 24%),
+    linear-gradient(180deg, rgba(5, 8, 22, 0.96) 0%, rgba(5, 8, 22, 1) 100%);
+  overflow-x: hidden;
 }
 
-/* Scroll-driven reveal animation for .reveal elements */
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+  text-wrap: balance;
+}
+
+p,
+li,
+dd {
+  text-wrap: pretty;
+}
+
+.hud-panel {
+  background: linear-gradient(
+    180deg,
+    rgba(5, 8, 22, 0.86) 0%,
+    rgba(5, 8, 22, 0.56) 100%
+  );
+  backdrop-filter: blur(16px);
+}
+
+.hud-rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 179, 0, 0) 0%,
+    rgba(255, 179, 0, 0.92) 50%,
+    rgba(255, 179, 0, 0) 100%
+  );
+}
+
 @keyframes reveal-up {
   from {
     opacity: 0;
@@ -81,7 +119,6 @@ body {
   }
 }
 
-/* Skip-to-content link — visible only on keyboard focus */
 .skip-link {
   position: absolute;
   top: -9999px;
@@ -99,8 +136,7 @@ body {
   top: 0;
 }
 
-/* Focus ring — meets AAA visible focus requirements */
 :focus-visible {
-  outline: 3px solid var(--color-clarity-gold);
+  outline: 3px solid var(--color-hud-amber);
   outline-offset: 3px;
 }

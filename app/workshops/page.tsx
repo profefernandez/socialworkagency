@@ -62,16 +62,24 @@ const workshops: Workshop[] = [
 
 export default function WorkshopsPage() {
   return (
-    <section aria-labelledby="workshops-heading" className="py-20 px-4">
+    <section
+      aria-labelledby="workshops-heading"
+      className="px-4 py-20 text-white sm:px-6 lg:px-8"
+    >
       <Container>
-        <header className="mb-12">
-          <h1
-            id="workshops-heading"
-            className="text-4xl font-bold text-clarity-dark mb-4"
-          >
-            Workshops
-          </h1>
-          <p className="text-lg text-clarity-muted max-w-2xl">
+        <header className="mb-12 grid grid-cols-12 gap-6 border-b border-hud-amber/30 pb-10">
+          <div className="col-span-12 lg:col-span-6">
+            <p className="font-heading text-sm uppercase tracking-[0.38em] text-hud-amber">
+              Live sessions
+            </p>
+            <h1
+              id="workshops-heading"
+              className="mt-4 font-heading text-5xl tracking-tighter text-white"
+            >
+              Workshops
+            </h1>
+          </div>
+          <p className="col-span-12 max-w-2xl self-end text-lg leading-8 text-white/72 lg:col-span-6">
             All workshops are live, interactive, and capped at a small number of
             participants to ensure a high-quality learning experience.
           </p>
