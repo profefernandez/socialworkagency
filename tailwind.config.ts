@@ -14,10 +14,10 @@ const config: Config = {
         "depth-blue": "#60A5FA",
       },
       fontFamily: {
-        sans: ["var(--font-body)", "ui-sans-serif", "system-ui", "sans-serif"],
-        body: ["var(--font-body)", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ['"Inter"', "ui-sans-serif", "system-ui", "sans-serif"],
+        body: ['"Inter"', "ui-sans-serif", "system-ui", "sans-serif"],
         heading: [
-          "var(--font-heading)",
+          '"Space Grotesk"',
           "ui-sans-serif",
           "system-ui",
           "sans-serif",

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
 import { SimplifiedLayoutProvider } from "@/lib/simplified-layout";
 import { SimplifiedLayoutToggle } from "@/components/ui/SimplifiedLayoutToggle";
 import { generateOrganizationJsonLd } from "@/schema/jsonld";
@@ -37,18 +36,6 @@ const orgJsonLd = generateOrganizationJsonLd({
   ],
 });
 
-const bodyFont = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-body",
-});
-
-const headingFont = Space_Grotesk({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-heading",
-});
-
 /* -------------------------------------------------------------------------- */
 /*  Root layout                                                                 */
 /* -------------------------------------------------------------------------- */
@@ -58,10 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${bodyFont.variable} ${headingFont.variable} h-full antialiased`}
-    >
+    <html lang="en" className="h-full antialiased">
       <head>
         {/* Organisation structured data — helps AI engines discover the brand */}
         <script

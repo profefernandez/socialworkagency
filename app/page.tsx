@@ -74,7 +74,7 @@ export default function HomePage() {
                   Browse Workshops
                 </Link>
                 <Link
-                  href="#about"
+                  href="#spatial-rules"
                   className="inline-flex items-center rounded-full border border-hud-amber/60 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-hud-amber/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hud-amber focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
                 >
                   View Spatial Rules
@@ -115,7 +115,10 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section id="about" className="relative z-20 border-t border-hud-amber/30 px-4 sm:px-6 lg:px-8">
+      <section
+        id="spatial-rules"
+        className="relative z-20 border-t border-hud-amber/30 px-4 sm:px-6 lg:px-8"
+      >
         <Container className="py-20">
           <div className="grid grid-cols-12 gap-8">
             <div className="col-span-12 lg:col-span-6">
