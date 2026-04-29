@@ -53,28 +53,48 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full bg-background text-foreground">
         {/* Skip to main content — WCAG 2.4.1 bypass block */}
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
 
         <SimplifiedLayoutProvider>
-          {/* Persistent accessibility toolbar */}
-          <div className="flex justify-end px-4 py-2 bg-clarity-dark/5 border-b border-clarity-gold/20">
-            <SimplifiedLayoutToggle />
+          <div className="relative flex min-h-full flex-col">
+            <header className="hud-panel relative z-30 border-b border-hud-amber/40">
+              <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
+                <div>
+                  <p className="font-heading text-[0.72rem] uppercase tracking-[0.38em] text-hud-amber">
+                    60 Watts of Clarity
+                  </p>
+                  <p className="mt-2 text-xs uppercase tracking-[0.22em] text-white/60">
+                    Ethical AI / No-Card Interface
+                  </p>
+                </div>
+                <SimplifiedLayoutToggle />
+              </div>
+            </header>
+
+            <main
+              id="main-content"
+              tabIndex={-1}
+              className="relative z-20 flex-1 outline-none"
+            >
+              {children}
+            </main>
+
+            <footer className="hud-panel relative z-30 border-t border-hud-amber/40">
+              <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-6 text-sm text-white/72 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+                <p>
+                  © {new Date().getFullYear()} 60 Watts of Clarity. Ethical AI
+                  Education.
+                </p>
+                <p className="font-heading text-[0.72rem] uppercase tracking-[0.32em] text-hud-amber">
+                  AAA contrast / ambient 3D background
+                </p>
+              </div>
+            </footer>
           </div>
-
-          <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
-            {children}
-          </main>
-
-          <footer className="border-t border-clarity-gold/20 py-8 text-center text-sm text-clarity-muted">
-            <p>
-              © {new Date().getFullYear()} 60 Watts of Clarity. Ethical AI
-              Education.
-            </p>
-          </footer>
         </SimplifiedLayoutProvider>
       </body>
     </html>

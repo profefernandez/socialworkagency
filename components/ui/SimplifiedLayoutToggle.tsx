@@ -16,11 +16,11 @@ export function SimplifiedLayoutToggle() {
       aria-pressed={simplified}
       className={[
         "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium",
-        "border-2 border-clarity-gold transition-colors",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-clarity-gold focus-visible:ring-offset-2",
+        "border border-hud-amber/70 transition-colors",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hud-amber focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950",
         simplified
-          ? "bg-clarity-gold text-clarity-dark"
-          : "bg-transparent text-clarity-dark hover:bg-clarity-gold/20",
+          ? "bg-hud-amber text-slate-950"
+          : "bg-transparent text-white hover:bg-hud-amber/10",
       ].join(" ")}
     >
       <svg
