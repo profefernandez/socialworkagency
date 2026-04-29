@@ -1,6 +1,10 @@
 import Link from "next/link";
 import type { Service, Workshop } from "@/types";
-import { generateServiceJsonLd, generateWorkshopJsonLd } from "@/schema/jsonld";
+import { JsonLd } from "@/shared-components/JsonLd";
+import {
+  generateCourseJsonLd,
+  generateProfessionalServiceJsonLd,
+} from "@/schema/jsonld";
 
 interface DataNodeProps {
   item: Service | Workshop;
@@ -54,12 +58,15 @@ function buildMeta(item: Service | Workshop): Array<{ label: string; value: stri
 
 export function DataNode({ item, kind }: DataNodeProps) {
   const metadata = buildMeta(item);
-  const jsonLd = kind === "service" ? generateServiceJsonLd(item as Service) : generateWorkshopJsonLd(item as Workshop);
+  const jsonLd =
+    kind === "service"
+      ? generateProfessionalServiceJsonLd(item as Service)
+      : generateCourseJsonLd(item as Workshop);
   const outcomes = isWorkshop(item) ? item.topics ?? [] : item.outcomes ?? [];
 
   return (
     <article className="border-t border-hud-amber/30 py-8 first:border-t-0 first:pt-0">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.9fr)] lg:gap-10">
         <div>
           <p className="font-heading text-[0.72rem] uppercase tracking-[0.38em] text-hud-amber">

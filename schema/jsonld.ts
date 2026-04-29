@@ -1,72 +1,74 @@
 import type { Workshop, Service, Organization } from "@/types";
 
-export function generateWorkshopJsonLd(workshop: Workshop): object {
-  const organizer = workshop.instructor
-    ? [
-        {
-          "@type": "Person",
-          name: workshop.instructor,
-        },
-        {
-          "@type": "Organization",
-          name: "60 Watts of Clarity",
-          url: "https://60wattsofclarity.com",
-        },
-      ]
+export function generateCourseJsonLd(workshop: Workshop): object {
+  const provider = {
+    "@type": "Organization",
+    name: "60 Watts of Clarity",
+    url: "https://60wattsofclarity.com",
+  };
+
+  const location = workshop.location
+    ? workshop.location.toLowerCase().includes("online")
+      ? {
+          "@type": "VirtualLocation",
+          name: workshop.location,
+          url: workshop.url,
+        }
+      : {
+          "@type": "Place",
+          name: workshop.location,
+        }
     : {
-        "@type": "Organization",
-        name: "60 Watts of Clarity",
-        url: "https://60wattsofclarity.com",
+        "@type": "VirtualLocation",
+        url: workshop.url,
       };
 
   return {
     "@context": "https://schema.org",
-    "@type": "EducationEvent",
+    "@type": "Course",
     name: workshop.name,
     description: workshop.description,
-    startDate: workshop.startDate,
-    ...(workshop.endDate && { endDate: workshop.endDate }),
     url: workshop.url,
     ...(workshop.image && { image: workshop.image }),
-    ...(workshop.location
-      ? {
-          location: {
-            "@type": "Place",
-            name: workshop.location,
-          },
-        }
-      : {
-          location: {
-            "@type": "VirtualLocation",
-            url: workshop.url,
-          },
-        }),
-    ...(workshop.price !== undefined && {
-      offers: {
-        "@type": "Offer",
-        price: workshop.price,
-        priceCurrency: workshop.currency ?? "USD",
-        availability: "https://schema.org/InStock",
-        url: workshop.url,
-      },
-    }),
-    ...(workshop.maxAttendees && {
-      maximumAttendeeCapacity: workshop.maxAttendees,
-    }),
     ...(workshop.topics && {
       about: workshop.topics.map((topic) => ({
         "@type": "Thing",
         name: topic,
       })),
     }),
-    organizer,
+    provider,
+    hasCourseInstance: {
+      "@type": "CourseInstance",
+      startDate: workshop.startDate,
+      ...(workshop.endDate && { endDate: workshop.endDate }),
+      location,
+      ...(workshop.format && { courseMode: workshop.format }),
+      ...(workshop.instructor && {
+        instructor: {
+          "@type": "Person",
+          name: workshop.instructor,
+        },
+      }),
+      ...(workshop.price !== undefined && {
+        offers: {
+          "@type": "Offer",
+          price: workshop.price,
+          priceCurrency: workshop.currency ?? "USD",
+          availability: "https://schema.org/InStock",
+          url: workshop.url,
+        },
+      }),
+      ...(workshop.maxAttendees && {
+        maximumAttendeeCapacity: workshop.maxAttendees,
+      }),
+    },
   };
 }
 
-export function generateServiceJsonLd(service: Service): object {
+export function generateProfessionalServiceJsonLd(service: Service): object {
   return {
     "@context": "https://schema.org",
-    "@type": "Service",
+    "@type": "ProfessionalService",
     name: service.name,
     description: service.description,
     url: service.url,
