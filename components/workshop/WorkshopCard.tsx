@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Workshop } from "@/types";
-import { generateWorkshopJsonLd } from "@/schema/jsonld";
+import { JsonLd } from "@/shared-components/JsonLd";
+import { generateCourseJsonLd } from "@/schema/jsonld";
 import { TrustCard } from "@/components/ui/TrustCard";
 
 interface WorkshopCardProps {
@@ -14,7 +15,7 @@ interface WorkshopCardProps {
  * in AI-generated answers.
  */
 export function WorkshopCard({ workshop }: WorkshopCardProps) {
-  const jsonLd = generateWorkshopJsonLd(workshop);
+  const jsonLd = generateCourseJsonLd(workshop);
 
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
@@ -25,10 +26,7 @@ export function WorkshopCard({ workshop }: WorkshopCardProps) {
   return (
     <>
       {/* JSON-LD structured data — read by search engines and AI agents */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLd data={jsonLd} />
 
       <TrustCard
         title={workshop.name}

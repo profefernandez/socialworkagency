@@ -67,6 +67,17 @@ body {
   overflow-x: hidden;
 }
 
+.spatial-background {
+  --amber-x: 22%;
+  --amber-y: 16%;
+  --blue-x: 78%;
+  --blue-y: 14%;
+  background:
+    radial-gradient(circle at var(--amber-x) var(--amber-y), rgba(255, 179, 0, 0.2), transparent 24%),
+    radial-gradient(circle at var(--blue-x) var(--blue-y), rgba(96, 165, 250, 0.18), transparent 28%);
+  filter: blur(8px);
+}
+
 h1,
 h2,
 h3,
@@ -79,6 +90,13 @@ p,
 li,
 dd {
   text-wrap: pretty;
+}
+
+.kinetic-heading {
+  font-weight: 300;
+  transition:
+    font-weight 180ms linear,
+    color 180ms ease;
 }
 
 .hud-panel {

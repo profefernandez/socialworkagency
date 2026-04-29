@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SimplifiedLayoutProvider } from "@/lib/simplified-layout";
 import { MainLayout } from "@/shared-components/MainLayout";
+import { JsonLd } from "@/shared-components/JsonLd";
 import { generateOrganizationJsonLd } from "@/schema/jsonld";
 import "../src/styles/globals.css";
 
@@ -38,10 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
-        />
+        <JsonLd id="organization-jsonld" data={orgJsonLd} />
       </head>
       <body className="min-h-full bg-background text-foreground">
         <a href="#main-content" className="skip-link">

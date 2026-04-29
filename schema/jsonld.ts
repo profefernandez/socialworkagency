@@ -1,72 +1,78 @@
 import type { Workshop, Service, Organization } from "@/types";
 
-export function generateWorkshopJsonLd(workshop: Workshop): object {
-  const organizer = workshop.instructor
-    ? [
-        {
-          "@type": "Person",
-          name: workshop.instructor,
-        },
-        {
-          "@type": "Organization",
-          name: "60 Watts of Clarity",
-          url: "https://60wattsofclarity.com",
-        },
-      ]
+type JsonLdNode = Record<string, unknown>;
+
+export function generateCourseJsonLd(course: Workshop): JsonLdNode {
+  const provider = {
+    "@type": "Organization",
+    name: "60 Watts of Clarity",
+    url: "https://60wattsofclarity.com",
+  };
+
+  const location = course.location
+    ? course.location.toLowerCase().includes("online")
+      ? {
+          "@type": "VirtualLocation",
+          name: course.location,
+          url: course.url,
+        }
+      : {
+          "@type": "Place",
+          name: course.location,
+        }
     : {
-        "@type": "Organization",
-        name: "60 Watts of Clarity",
-        url: "https://60wattsofclarity.com",
+        "@type": "VirtualLocation",
+        url: course.url,
       };
 
   return {
     "@context": "https://schema.org",
-    "@type": "EducationEvent",
-    name: workshop.name,
-    description: workshop.description,
-    startDate: workshop.startDate,
-    ...(workshop.endDate && { endDate: workshop.endDate }),
-    url: workshop.url,
-    ...(workshop.image && { image: workshop.image }),
-    ...(workshop.location
-      ? {
-          location: {
-            "@type": "Place",
-            name: workshop.location,
-          },
-        }
-      : {
-          location: {
-            "@type": "VirtualLocation",
-            url: workshop.url,
-          },
-        }),
-    ...(workshop.price !== undefined && {
-      offers: {
-        "@type": "Offer",
-        price: workshop.price,
-        priceCurrency: workshop.currency ?? "USD",
-        availability: "https://schema.org/InStock",
-        url: workshop.url,
-      },
-    }),
-    ...(workshop.maxAttendees && {
-      maximumAttendeeCapacity: workshop.maxAttendees,
-    }),
-    ...(workshop.topics && {
-      about: workshop.topics.map((topic) => ({
+    "@type": "Course",
+    name: course.name,
+    description: course.description,
+    url: course.url,
+    ...(course.image && { image: course.image }),
+    ...(course.topics && {
+      about: course.topics.map((topic) => ({
         "@type": "Thing",
         name: topic,
       })),
     }),
-    organizer,
+    provider,
+    hasCourseInstance: {
+      "@type": "CourseInstance",
+      startDate: course.startDate,
+      ...(course.endDate && { endDate: course.endDate }),
+      location,
+      ...(course.format && { courseMode: course.format }),
+      ...(course.instructor && {
+        instructor: {
+          "@type": "Person",
+          name: course.instructor,
+        },
+      }),
+      ...(course.price !== undefined && {
+        offers: {
+          "@type": "Offer",
+          price: course.price,
+          priceCurrency: course.currency ?? "USD",
+          availability: "https://schema.org/InStock",
+          url: course.url,
+        },
+      }),
+      ...(course.maxAttendees && {
+        maximumAttendeeCapacity: course.maxAttendees,
+      }),
+    },
   };
 }
 
-export function generateServiceJsonLd(service: Service): object {
+export function generateProfessionalServiceJsonLd(
+  service: Service,
+): JsonLdNode {
   return {
     "@context": "https://schema.org",
-    "@type": "Service",
+    "@type": "ProfessionalService",
     name: service.name,
     description: service.description,
     url: service.url,
@@ -89,7 +95,7 @@ export function generateServiceJsonLd(service: Service): object {
   };
 }
 
-export function generateOrganizationJsonLd(org: Organization): object {
+export function generateOrganizationJsonLd(org: Organization): JsonLdNode {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",

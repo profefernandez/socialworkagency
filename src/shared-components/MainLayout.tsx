@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { SplineHero } from "@/components/hero/SplineHero";
+import { KineticHeading } from "@/components/ui/KineticHeading";
+import { SpatialBackground } from "@/components/ui/SpatialBackground";
 import { SimplifiedLayoutToggle } from "@/components/ui/SimplifiedLayoutToggle";
 import { terminalReadout } from "@/stores/system-store";
 
@@ -20,6 +22,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="relative min-h-screen">
       <SplineHero />
+      <SpatialBackground />
       <div aria-hidden="true" className="site-spine fixed inset-y-0 z-10 hidden w-px bg-hud-amber/70 md:block" />
 
       <div className="relative z-20 flex min-h-screen flex-col">
@@ -97,9 +100,12 @@ export function SpineSection({
         </div>
         <div className="col-span-12 md:col-span-8 lg:col-span-8 lg:pl-10">
           <div className="space-y-8">
-            <h2 id={`${id}-heading`} className="font-heading text-4xl tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
+            <KineticHeading
+              id={`${id}-heading`}
+              className="kinetic-heading font-heading text-4xl tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl"
+            >
               {title}
-            </h2>
+            </KineticHeading>
             {children}
           </div>
         </div>
