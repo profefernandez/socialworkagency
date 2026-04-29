@@ -7,43 +7,66 @@ interface LogEntry {
   timestamp: string;
 }
 
+function normalizeError(error: unknown): Record<string, unknown> {
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+    };
+  }
+
+  return { value: error };
+}
+
 function formatEntry(entry: LogEntry): string {
   return JSON.stringify(entry);
 }
 
+function write(level: LogLevel, message: string, context?: Record<string, unknown>): void {
+  const entry: LogEntry = {
+    level,
+    message,
+    context,
+    timestamp: new Date().toISOString(),
+  };
+
+  const payload = formatEntry(entry);
+
+  if (level === "error") {
+    console.error(payload);
+    return;
+  }
+
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
+
+  if (level === "warn") {
+    console.warn(payload);
+    return;
+  }
+
+  console.info(payload);
+}
+
 export const logger = {
   info(message: string, context?: Record<string, unknown>): void {
-    const entry: LogEntry = {
-      level: "info",
-      message,
-      context,
-      timestamp: new Date().toISOString(),
-    };
-    if (process.env.NODE_ENV !== "test") {
-      console.info(formatEntry(entry));
-    }
+    write("info", message, context);
   },
 
   warn(message: string, context?: Record<string, unknown>): void {
-    const entry: LogEntry = {
-      level: "warn",
-      message,
-      context,
-      timestamp: new Date().toISOString(),
-    };
-    if (process.env.NODE_ENV !== "test") {
-      console.warn(formatEntry(entry));
-    }
+    write("warn", message, context);
   },
 
   error(message: string, context?: Record<string, unknown>): void {
-    const entry: LogEntry = {
-      level: "error",
-      message,
-      context,
-      timestamp: new Date().toISOString(),
-    };
-    // Always log errors regardless of environment
-    console.error(formatEntry(entry));
+    write("error", message, context);
+  },
+
+  captureException(error: unknown, context?: Record<string, unknown>): void {
+    write("error", "Captured exception", {
+      ...normalizeError(error),
+      ...context,
+    });
   },
 };
